@@ -1,0 +1,23 @@
+# Free Hacker Pinger
+
+import os
+import subprocess
+import threading
+
+def Pinger(host):
+    ping = subprocess.check_output(f'PING -n 1 {host}').decode()
+    time = ping.split('time=')[1].split(' ')[0]
+    if "Reply" in ping:
+        print(f'[\033[92mUP\033[39m] {host} \033[92m|\033[39m {time}')
+    if "Request timed out." in ping:
+        print(f'[\033[91mDOWN\033[39m] {host}')
+
+os.system('cls & title [RAS PINGER] By NumeX')
+host = input('[\033[92mTARGET\033[39m]# ').lower()
+threads = int(input('[\033[92mTHREADS\033[39m]# '))
+while True:
+    try:
+        if threading.active_count() <= threads:
+            threading.Thread(target=Pinger, args=(host,)).start()
+    except:
+        pass
